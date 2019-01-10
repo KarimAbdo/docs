@@ -80,4 +80,23 @@ Without any calls to any of the TestFairy SDK, Proguard will eventually remove t
 
 Android allows loading classes into memory on-the-fly. This is for advanced developers. You can use Android's ClassLoader to load TestFairy class into memory only on a Debug build. 
 
+#### Option 3: Compile the begin method in runtime
+
+To reduce the app size you can use:
+
+```
+debugImplementation 'testfairy:testfairy-android-sdk:1.+@aar'
+```
+
+Then in the activity or the application file you will need to run the begin method in runtime like this:
+
+``` private fun initTestFairy() {
+        try {
+            val cls = Class.forName("com.testfairy.TestFairy")
+            val method = cls.getMethod("begin", android.content.Context::class.java, String::class.java)
+            method.invoke(cls, this, "SDK-A1vXPGPG")
+        } catch (e: Exception) {
+        }
+    }
+```
 
